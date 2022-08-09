@@ -47,7 +47,7 @@ class ProductsList {
     }
 }
 
-class TotalCost{
+class ProductsCost{
     sum = 0;
     products = [];
     sumarize(productsList) {
@@ -60,5 +60,5 @@ class TotalCost{
 const productsList = new ProductsList();
 productsList.fetchProducts();
 productsList.render();
-const productsCost = new TotalCost();
+const productsCost = new ProductsCost();
 console.log(productsCost.sumarize(products))
