@@ -35,9 +35,17 @@ class ProductsItem {
 
 class ProductsList {
     products = [];
+
+    sumarize() {
+        return this.products.reduce((prev, {price}) => {
+            return prev + price
+        }, 0)
+    }
+
     fetchProducts() {
        this.products = products;
     }
+
     render() {
         let productsList = this.products.map(item => {
             const productItem = new ProductsItem(item);
@@ -47,18 +55,8 @@ class ProductsList {
     }
 }
 
-class ProductsCost{
-    sum = 0;
-    products = [];
-    sumarize(productsList) {
-            this.products = productsList
-            products.map(item => this.sum = this.sum + item.price)
-            return this.sum
-        }
-}
 
 const productsList = new ProductsList();
 productsList.fetchProducts();
 productsList.render();
-const productsCost = new ProductsCost();
-console.log(productsCost.sumarize(products))
+console.log(productsList.sumarize())
