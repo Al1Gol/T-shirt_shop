@@ -1,60 +1,42 @@
-const base_url = 'https://run.mocky.io'
-const get_products = '/v3/91a51943-2cd8-490f-8fa2-fa434f347cd4'
+//ToDo - вам необходимо скопировать данный скрипт в свой проект, и сдавать ДЗ в рамках собственного репозитория
 
-const get_json = (url) => new Promise((resolve) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    const loadHandler = () => {
-        resolve(JSON.parse(xhr.response))
-    }
-    xhr.send();
-    xhr.onload = loadHandler;
-})
 
-class ProductsItem {
-    constructor({title = 'Информация о товаре отсутствует', price = '-', image = './img/default.jpg'}) {
-        this.title = title;
-        this.price = price;
-        this.image = image;
-    }
-    render(){
-        return `
-        <div class='products-item'>
-            <img class='products-image' src="${this.image}" alt="${this.title}">
-            <h3 class='product-title'>${this.title}</h3>
-            <p class='product-price'>${this.price} руб.</p>
-        </div>
-    `;
-    }
+// 1) Какие виды областей видимости вы знаете? Написать ответ ниже
+// Локальная, глобальная, блочная, кэтч
+
+
+// 2) Исправьте код так чтобы в консоль выводились числа от 0 до 10
+for (var i = 0; i <= 10; i++) {
+    (function(i) {
+         setTimeout(() => {
+            console.log(i);
+         }, 0);
+    })(i);   
 }
 
-class ProductsList {
-    products = [];
-
-    sumarize() {
-        return this.products.reduce((prev, {price}) => {
-            return prev + price
-        }, 0)
+ 
+ // 3) Исправьте код так чтобы в консоль выводилось "John"
+ var firstName = "Elena"
+ const obj = {
+    firstName: 'John',
+    sayFirstName: function() {
+       console.log(this.firstName)
     }
-
-    fetchProducts() {
-        return get_json(`${base_url}${get_products}`).then((data) => {
-            this.products = data;
-        })
+ }
+ const first_name = obj;
+first_name.sayFirstName();
+ 
+ 
+ // 4) Исправьте код так чтобы в консоль не выводилась ошибка (нельзя исправлять тело функции getArrowFunction)
+  const user = {
+    age: 20
+ }
+ function getArrowFunction() {
+    "use strict"
+    return () => {
+       console.log(this.age)
     }
-
-    render() {
-        let productsList = this.products.map(item => {
-            const productItem = new ProductsItem(item);
-            return productItem.render();
-        });
-        document.querySelector('.products-list').innerHTML = productsList.join('');
-    }
-}
-
-
-const productsList = new ProductsList();
-productsList.fetchProducts().then(() => { 
-    productsList.render() 
-});
-console.log(productsList.sumarize())
+ }
+ 
+ const arrowFunction = getArrowFunction.call(user);
+ arrowFunction();
