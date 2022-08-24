@@ -1,20 +1,15 @@
-const products = [
-    {title: 'Тёмный рыарь', price: 1300, image: './img/batman.jpg'},
-    {title: 'Футурама, Бэндер', price: 1120, image: './img/bender.jpg'},
-    {title: 'Самый лучший геймер', price: 1200, image: './img/best_gamer.jpg'},
-    {title: 'Death Metal', price: 1000, image: './img/death_metal.jpg'},
-    {title: 'Devops', price: 980, image: './img/devops.jpg'},
-    {title: 'Фибоначчи, золотое сечение', price: 1220, image: './img/fibonachi.jpg'},
-    {title: 'Гуррен Лаган', price: 1250, image: './img/gurren.jpg'},
-    {title: 'Hello, world!', price: 1200, image: './img/hello_world.jpg'},
-    {title: 'Дзюндзи Ито', price: 1100, image: './img/ito.jpg'},
-    {title: 'Linux, Star Wars', price: 1150, image: './img/linux.jpg'},
-    {title: 'Луффи, One Piece', price: 1500, image: './img/luffy.jpg'},
-    {title: 'Овервотч', price: 1450, image: './img/overwatch.jpg'},
-    {title: 'Рик и морти', price: 1350, image: './img/rick_morty.jpg'},
-    {title: 'Ryzen', price: 1250, image: './img/ryzen.jpg'},
-    {title: 'Единорог', price: 1150, image: './img/unicorn.jpg'},
-];
+const base_url = 'https://run.mocky.io'
+const get_products = '/v3/91a51943-2cd8-490f-8fa2-fa434f347cd4'
+
+const get_json = (url) => new Promise((resolve) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    const loadHandler = () => {
+        resolve(JSON.parse(xhr.response))
+    }
+    xhr.send();
+    xhr.onload = loadHandler;
+})
 
 class ProductsItem {
     constructor({title = 'Информация о товаре отсутствует', price = '-', image = './img/default.jpg'}) {
@@ -43,7 +38,9 @@ class ProductsList {
     }
 
     fetchProducts() {
-       this.products = products;
+        return get_json(`${base_url}${get_products}`).then((data) => {
+            this.products = data;
+        })
     }
 
     render() {
@@ -57,6 +54,7 @@ class ProductsList {
 
 
 const productsList = new ProductsList();
-productsList.fetchProducts();
-productsList.render();
+productsList.fetchProducts().then(() => { 
+    productsList.render() 
+});
 console.log(productsList.sumarize())
