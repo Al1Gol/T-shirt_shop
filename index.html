@@ -5,17 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8"></script>
+    <script src="script.js" defer></script>
     <title>T-shirt Shop</title>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="app">
         <header>
-            <button class="basket btn" type="button">Корзина</button>
+            <img class='logo' src="./img/logo.png" alt="T-Shop">
+            <form>
+                <input class="search-input" type="search" v-model='searchLine' name="search" placeholder="Поиск товаров">
+                <button class="btn" type="submit" value="Найти">Найти</button>
+            </form>
+            <button class="basket-btn btn" type="button" @click="showBasketCard">Корзина</button>
         </header>
         <main>
-            <div class="products-list"></div>
+            {{searchLine}}
+            <div v-if="avail" class="products-list">
+                <div v-for='product in products' class='products-item'>
+                    <img class='products-image' :src='product.image' :alt="product.title">
+                    <h3 class='product-title' :title="product.title">{{ product.title }}</h3>
+                    <p class='product-price'>{{ product.price }} руб.</p>
+                </div>
+            </div>
+            <div v-else class="products-list">
+                <h1>Товар отсутствует</h1>
+            </div>
         </main>
-        <script src="script.js"></script>
+        <div v-if="isVisibleCard" class="basket">
+            <input type="image" src="./img/close.png"  class="close" @click="showBasketCard">
+        </div>
     </div>
 </body>
 </html>
