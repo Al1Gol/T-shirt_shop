@@ -79,6 +79,14 @@ select {
   }
 }
 
+button, img{
+  -webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 .btn{
     border-radius: 10px;
     background: linear-gradient(bisque, rgb(95, 67, 33) );
@@ -99,13 +107,25 @@ select {
 header{
     display: flex;
     background: linear-gradient(rgb(199, 177, 152), rgb(66, 46, 23) );
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 10px;
     border-bottom: 2px solid;
     width: 100%;
+    padding-left: 50px;
+    padding-right: 50px;
+    align-items: center;
 }
 
-.basket{
+.logo{
+  height: 40px;
+}
+
+.search-input{
+  width: 20vw;
+  border-radius: 10px;
+}
+
+.basket-btn{
     font-size: 16px;
     text-shadow: 3px;
     padding: 5px 20px;
@@ -117,6 +137,7 @@ main{
 }
 
 .products-list{
+    margin-top: 30px;
     display: flex;
     justify-content: left;
     flex-wrap: wrap;
@@ -153,4 +174,25 @@ main{
     border-top: 1px solid;
     padding-left: 5px;
     border-radius: 0 0 5px 5px;
+}
+
+.basket {
+  border: solid 2px;
+  margin-bottom: 110px;
+  position: fixed;
+  width: 70%;
+  height: 80%;
+  background: linear-gradient(bisque 65%, rgb(95, 67, 33) );
+}
+
+.close{
+  -webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+  height: 30px;
+  position: absolute;
+  right: 0;
+  margin: 10px;
 }
