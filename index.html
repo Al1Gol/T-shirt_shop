@@ -12,29 +12,17 @@
 <body>
     <div class="container" id="app">
         <header>
-            <img class='logo' src="./img/logo.png" alt="T-Shop">
-            <form>
-                <input class="search-input" type="search" v-model='searchLine' name="search" placeholder="Поиск товаров">
-                <button class="btn" type="submit" value="Найти">Найти</button>
-            </form>
-            <button class="basket-btn btn" type="button" @click="showBasketCard">Корзина</button>
+            <logo></logo>
+            <search-form v-model='searchLine'></search-form>
+            <basket-btn @click_close="showBasketCard"></basket-btn>
         </header>
         <main>
-            {{searchLine}}
             <div v-if="avail" class="products-list">
-                <div v-for='product in products' class='products-item'>
-                    <img class='products-image' :src='product.image' :alt="product.title">
-                    <h3 class='product-title' :title="product.title">{{ product.title }}</h3>
-                    <p class='product-price'>{{ product.price }} руб.</p>
-                </div>
+                <products-item v-for='product in filteredProducts' :product="product"></products-item>
             </div>
-            <div v-else class="products-list">
-                <h1>Товар отсутствует</h1>
-            </div>
+            <products-empty></products-empty>
         </main>
-        <div v-if="isVisibleCard" class="basket">
-            <input type="image" src="./img/close.png"  class="close" @click="showBasketCard">
-        </div>
+        <basket-card v-if="isVisibleCard" @click_close="showBasketCard"></basket-card>
     </div>
 </body>
 </html>
