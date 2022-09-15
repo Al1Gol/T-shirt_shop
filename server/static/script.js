@@ -71,7 +71,22 @@ function init() {
         },
         template: `
             <div class="basket">
-                <input type="image" src="./img/icons/close.png"  class="close" @click="$emit('click_close')">
+                <div class=header-basket>
+                    <h2>Корзина</h2>
+                    <input type="image" src="./img/icons/close.png"  class="close" @click="$emit('click_close')">
+                </div>
+                <div class="basket-content">
+                    <table>
+                        <tbody>
+                            <basket-item class="basket-item" v-for="item in basketProductItems" :item="item" @add="addProduct" :basketProductItems="basketProductItems">             
+                            </basket-item>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                <div class="basket-footer">
+                    <b>Всего: руб.</b>
+                </div>
             </div>
         `,
         mounted() {
@@ -79,7 +94,35 @@ function init() {
             .then((data) => {
                 this.basketProductItems = data
             })
+        },
+        methods:{
+            addProduct(id) {
+                service(get_basket, 'PUT', {
+                    id
+                }).then((data) => {
+                    this.basketProductItems = data
+                })
+            }
         }
+    })
+
+    Vue.component ('basket-item', {
+        props: [
+            'item'
+          ],
+        template: `
+            <tr>
+                <td class="image-row"><img class="basket-img" :src="item.data.image" :alt="item.data.title"></td>
+                <td class="title-row">{{item.data.title}}</td>
+                <td class="indent-row"><b>{{item.data.price}}</b></td>
+                <td class="indent-row"><b>X</b></td>
+                <td><input class = "value" type="image" src="./img/icons/minus.png"  class="count" @click="$emit('click_close')"></td>
+                <td class="count-row"><b><input class="count-value" type="text" :value='item.count'></b></td>
+                <td class="indent-row"><input type="image" src="./img/icons/plus.png"  class="count"  @click="$emit('add', item.data.id)"></td>
+                <td class="indent-row"><b>=</b></td>
+                <td class="sum"><b>{{item.total}}</b></td>
+            </tr>
+        `
     })
 
     //Карточка товара
@@ -98,6 +141,12 @@ function init() {
 
             </div>
         `,
+        mounted() {
+            service(get_basket)
+            .then((data) => {
+                this.basketProductItems = data
+            })
+        },
         methods: {
             addProduct() {
                 service(get_basket, 'PUT', {
