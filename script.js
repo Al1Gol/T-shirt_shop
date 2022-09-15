@@ -66,7 +66,7 @@ function init() {
     //Заглушка отсутствия товаров
     Vue.component ('products-empty', {
         template: `
-            <div v-else class="products-list">
+            <div class="products-list">
                 <h1>Товар отсутствует</h1>
             </div>
         `

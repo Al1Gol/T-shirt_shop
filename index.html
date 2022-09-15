@@ -20,7 +20,7 @@
             <div v-if="avail" class="products-list">
                 <products-item v-for='product in filteredProducts' :product="product"></products-item>
             </div>
-            <products-empty></products-empty>
+            <products-empty v-else></products-empty>
         </main>
         <basket-card v-if="isVisibleCard" @click_close="showBasketCard"></basket-card>
     </div>
