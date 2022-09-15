@@ -91,9 +91,20 @@ function init() {
             <div class="products-item">
                 <img class="products-image" :src="product.image" :alt="product.title">
                 <h3 class="product-title" :title="product.title">{{ product.title }}</h3>
-                <p class="product-price">{{ product.price }} руб.</p>
+                <p class="product-price">{{ product.price }} руб.
+                <button @click="addProduct" class="btn add_to_basket">
+                <img class='basket_icon' src="./img/icons/basket_icons.png" alt="Добавить в корзину">
+            </button></p>
+
             </div>
-        `
+        `,
+        methods: {
+            addProduct() {
+                service(get_basket, 'PUT', {
+                    id: this.product.id
+                })
+            }
+        }
     })
 
     //Заглушка отсутствия товаров

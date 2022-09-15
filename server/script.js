@@ -37,35 +37,36 @@ function getBasketProducts() {
     })
 }
 
-//function addBasketProduct(_id) {
-//    return getRawBasketProducts().then((basketProducts) => {
-//        if (basketProducts.find(({product_id}) => product_id === _id)) {
-//            const result = basketProducts.map(({ basketProduct }) => {
-//                if (basketProduct.product_id === _id) {
-//                    return {
-//                        ...basketProduct,
-//                        count: basketProduct.count + 1
-//                    }
-//                } else {
-//                    return basketProduct
-//                }
-//            });
-//            return result
-//        } else {
-//            return [
-//                ...basketProducts,
-//                {
-//                    id: _id,
-//                    count: 1
-//                }
-//            ]
-//        }
-//    }).then((result) => {
-//        return writeFile(basket_products, JSON.stringify(result)).then(() => {
-//            return result;
-//        })
-//    })
-//}
+function addBasketProduct(_id) {
+    return getRawBasketProducts().then((basketProducts) => {
+        if (basketProducts.find(({ product_id }) => product_id === _id)) {
+            const result = basketProducts.map((basketProduct) => {
+                if (basketProduct.product_id === _id) {
+                    return {
+                        ...basketProduct,
+                        count: basketProduct.count + 1
+                    }
+                } else {
+                    return basketProduct
+                }
+            });
+            return result
+        } else {
+            return [
+                ...basketProducts,
+                {
+                    product_id: _id,
+                    count: 1
+                }
+            ];
+        }
+    })
+    .then((result) => {
+        return writeFile(basket_products, JSON.stringify(result)).then(() => {
+            return result;
+        })
+    })
+}
 
 const app = express();
 app.use(cors()); //Пустой корс разрешает любому домену обращаться без ошибки
@@ -79,13 +80,14 @@ app.get('/basket-products', (req, res) => {
     });
 });
 
-//app.put('/basket-products', (req, res) => {
-//    addBasketProduct(req.body.id).then((basketProducts) => {
-//        res.send(JSON.stringify(basketProducts))
-//    })
-//    console.log(req.body.id)
-//    res.send()
-//});
+app.put('/basket-products', (req, res) => {
+    addBasketProduct(req.body.id).then(() => {
+        getBasketProducts().then((data) => {
+            res.send(data)
+        });
+
+    })
+});
 
 app.listen('8000', () => {
     console.log('server is starting')
