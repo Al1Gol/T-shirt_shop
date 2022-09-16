@@ -78,7 +78,7 @@ function init() {
                 <div class="basket-content">
                     <table>
                         <tbody>
-                            <basket-item class="basket-item" v-for="item in basketProductItems" :item="item" @add="addProduct" :basketProductItems="basketProductItems">             
+                            <basket-item class="basket-item" v-for="item in basketProductItems" :item="item" @add="addProduct" @del="delProduct" :basketProductItems="basketProductItems">             
                             </basket-item>
                         </tbody>
                     </table>
@@ -102,6 +102,13 @@ function init() {
                 }).then((data) => {
                     this.basketProductItems = data
                 })
+            },
+            delProduct(id) {
+                service(get_basket, 'DELETE', {
+                    id
+                }).then((data) => {
+                    this.basketProductItems = data
+                })
             }
         }
     })
@@ -116,7 +123,7 @@ function init() {
                 <td class="title-row">{{item.data.title}}</td>
                 <td class="indent-row"><b>{{item.data.price}}</b></td>
                 <td class="indent-row"><b>X</b></td>
-                <td><input class = "value" type="image" src="./img/icons/minus.png"  class="count" @click="$emit('click_close')"></td>
+                <td><input class = "value" type="image" src="./img/icons/minus.png"  class="count" @click="$emit('del', item.data.id)"></td>
                 <td class="count-row"><b><input class="count-value" type="text" :value='item.count'></b></td>
                 <td class="indent-row"><input type="image" src="./img/icons/plus.png"  class="count"  @click="$emit('add', item.data.id)"></td>
                 <td class="indent-row"><b>=</b></td>

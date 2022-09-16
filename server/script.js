@@ -68,6 +68,25 @@ function addBasketProduct(_id) {
     })
 }
 
+function delBasketProduct(_id) {
+    return getRawBasketProducts().then((basketProducts) => {
+        return basketProducts.map((basketProduct) => {
+            if (basketProduct.product_id === _id){
+                return {
+                    ...basketProduct,
+                    count: basketProduct.count - 1
+                }
+            } else {
+                return basketProduct;
+            }
+        }).filter(({count}) => count > 0);
+    }).then((result) => {
+        return writeFile(basket_products, JSON.stringify(result)).then(() => {
+            return result;
+        })
+    })
+}
+
 const app = express();
 app.use(cors()); //Пустой корс разрешает любому домену обращаться без ошибки
 app.use(express.json());
@@ -86,6 +105,14 @@ app.put('/basket-products', (req, res) => {
             res.send(data)
         });
 
+    })
+});
+
+app.delete('/basket-products', (req, res) => {
+    delBasketProduct(req.body.id).then(() => {
+        getBasketProducts().then((data) => {
+            res.send(data)
+        });
     })
 });
 
