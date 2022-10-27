@@ -13,7 +13,7 @@
     <div class="container" id="app">
         <header>
             <logo></logo>
-            <search-form v-model='searchLine'></search-form>
+            <search-form v-bind:search="search"></search-form>
             <basket-btn @click_close="showBasketCard"></basket-btn>
         </header>
         <main>
